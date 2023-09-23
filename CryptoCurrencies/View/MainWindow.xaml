@@ -1,12 +1,14 @@
-﻿<Window x:Class="CryptoCurrencies.MainWindow"
+﻿<Window x:Class= "CryptoCurrencies.View.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CryptoCurrencies"
+        xmlns:local="clr-namespace:CryptoCurrencies.View"
         mc:Ignorable="d"
         Title="MainWindow" Height="800" Width="800">
+    
     <Grid>
+        
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
@@ -15,28 +17,29 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+
+        <Frame Name="MainFrame" Grid.Row="2" Grid.Column="2" Grid.RowSpan="2"/>
         <StackPanel Grid.Row="0" Grid.Column="1" >
             <Button Content="Load More" Click="LoadMoreButton_Click" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,10,0,10"/>
 
-            <TextBox Background="#FFDAD5D5" Name="SearchTextBox"></TextBox>
-            <Label Name="message" Content="some text" HorizontalAlignment="Center"></Label>
+            <TextBox Background="#FFDAD5D5" Name="SearchTextBox" PreviewKeyDown ="SearchTextBox_PreviewKeyDown" Text="Find a coin" GotFocus="SearchTextBox_GotFocus"/>
+            <Label Name="message" Content="some text" HorizontalAlignment="Center"/>
         </StackPanel>
 
-        <ListView x:Name="ViewListOfCurrency" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="1" ItemsSource="{Binding}">
+        <ListView x:Name="ViewListOfCurrency" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="1" ItemsSource="{Binding}"
+                  SelectionChanged ="ViewListOfCurrency_SelectionChanged">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" Width="100" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <!-- Bind to the 'Id' property of CurrencyModel -->
-                                <TextBlock Text="{Binding Id}" />
+                                <TextBlock Text="{Binding Id}" FontFamily="Arial Rounded MT Bold" FontSize="20" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="Symbol" Width="100" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <!-- Bind to the 'Symbol' property of CurrencyModel -->
                                 <TextBlock Text="{Binding Symbol}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -44,7 +47,6 @@
                     <GridViewColumn Header="Price" Width="100" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <!-- Bind to the 'RateUsd' property of CurrencyModel -->
                                 <TextBlock Text="{Binding PriceUsd}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -52,8 +54,8 @@
                 </GridView>
             </ListView.View>
         </ListView>
-
-        <TextBox Text="4" Grid.Row="1" Grid.Column="1">
-        </TextBox>
+        <DockPanel>
+            <Frame x:Name="NavigationFrameMainWindow" NavigationUIVisibility="Hidden"/>
+        </DockPanel>
     </Grid>
 </Window>

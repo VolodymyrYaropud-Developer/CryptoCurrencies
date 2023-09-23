@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CryptoCurrencies.Models
 {
-    internal class CurrencyViewModel
+    internal class CurrencyToShow
     {
         public List<CurrencyModel> AllCurrencies { get; set; }
         public List<CurrencyModel> DisplayedCurrencies { get; set; }
