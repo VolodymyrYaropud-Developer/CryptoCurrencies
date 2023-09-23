@@ -1,18 +1,13 @@
-﻿using System;
+﻿using CryptoCurrencies.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Bson;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 
 namespace CryptoCurrencies
@@ -22,30 +17,68 @@ namespace CryptoCurrencies
     /// </summary>
     public partial class MainWindow : Window
     {
+        private CurrencyRates _currencyRates;
+        private CurrencyViewModel viewModel;
         public MainWindow()
         {
             InitializeComponent();
-            var data = new TestData.Data();
-            ViewListOfCurrency.ItemsSource = data.someCurrency;
+            Start();
+
         }
-        private ListView DataView()
+        private async void Start()
         {
-            var values = new TestData.Data().someCurrency;
-            var listView = new ListView();
-            foreach (var coin in values)
+            using (HttpClient client = new HttpClient())
             {
-                listView.Items.Add(coin);
+                try
+                {
+                    HttpResponseMessage responce = await client.GetAsync($"https://api.coincap.io/v2/assets");
+                    responce.EnsureSuccessStatusCode();
+                    if (responce.IsSuccessStatusCode)
+                    {
+                        Desirialize(responce);
+                        _currencyRates.Data = _currencyRates.Data;
+                        viewModel = new CurrencyViewModel
+                        {
+                            AllCurrencies = _currencyRates.Data,
+                            DisplayedCurrencies = _currencyRates.Data.Take(10)
+                            .ToList()
+                        };
+                        DataContext = viewModel.DisplayedCurrencies;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Server error {ex.Message}");
+                }
             }
-            return listView;
+        }
+        private async void Desirialize(HttpResponseMessage responce)
+        {
+            try
+            {
+                string responseBody = await responce.Content.ReadAsStringAsync();
+                _currencyRates = JsonConvert.DeserializeObject<CurrencyRates>(responseBody);
+                List<CurrencyModel> cryptocurrencies = _currencyRates.Data;
+                var timestamp = _currencyRates.Timestamp;
+                var temp = new List<CurrencyRates>();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Server error {ex.Message}");
+            }
         }
 
-        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        private void LoadMoreButton_Click(object sender, RoutedEventArgs e)
         {
-            string searchText = SearchTextBox.Text.Trim().ToLower();
-            var filteredCoins = new TestData.Data().someCurrency.
-                Where(coin => coin.Name.ToLower().Contains(searchText)|| coin.Symbol.ToLower().Contains(searchText)).
-                ToList();
-            ViewListOfCurrency.ItemsSource = filteredCoins;
+            try
+            {
+                viewModel.DisplayCount += 10;
+                DataContext = _currencyRates.Data.Take(viewModel.DisplayCount);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Server error {ex.Message}");
+            }
         }
     }
 }
