@@ -11,11 +11,17 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
 using CryptoCurrencies.View;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace CryptoCurrencies.ViewModel
 {
     internal class CurrencyViewModel
     {
+        public List<CurrencyModel> GetListOfCurrencies()
+        {
+            return CurrencyWorker._currencyRates.Data;
+        }
         public async Task<List<CurrencyModel>> DisplayStartCurrency()
         {
             return await CurrencyWorker.FetchCurrenciesAsync();
@@ -24,7 +30,7 @@ namespace CryptoCurrencies.ViewModel
         {
             return CurrencyWorker.LoadMoreButtonFunc();
         }
-        public  List<CurrencyModel> FindButton(string str)
+        public List<CurrencyModel> FindButton(string str)
         {
             return CurrencyWorker.FindCurrencyBySymbolAndName(str);
         }

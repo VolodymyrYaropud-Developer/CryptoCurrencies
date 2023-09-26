@@ -5,6 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Navigation;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Controls;
 
 namespace CryptoCurrencies.View
 {
@@ -16,9 +19,9 @@ namespace CryptoCurrencies.View
         public MainWindow()
         {
             _viewModel = new CurrencyViewModel();
-            //DataContext = _viewModel;
+            DataContext = _viewModel;
             SetListViewItemsSource();
-            InitializeComponent();
+            InitializeComponent(); 
         }
 
         private async void SetListViewItemsSource()
@@ -33,7 +36,17 @@ namespace CryptoCurrencies.View
                 MessageBox.Show($"Error: {ex.Message}");
             }
         }
-
+        private void changePercentTextPercent_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (sender is TextBlock textBlock)
+            {
+                if (double.TryParse(textBlock.Text, out double changePercent) && changePercent >= 0)
+                    textBlock.Foreground = Brushes.Green;
+                else
+                    textBlock.Foreground = Brushes.Red;
+                textBlock.Text = textBlock.Text.Substring(0, 4);
+            }
+        }
 
         private void LoadMoreButton_Click(object sender, RoutedEventArgs e)
         {
@@ -55,14 +68,28 @@ namespace CryptoCurrencies.View
             if (ViewListOfCurrency.SelectedItem != null)
             {
                 CurrencyModel selectedCurrency = (CurrencyModel)ViewListOfCurrency.SelectedItem;
-                var newList = new List<CurrencyModel>();
-                newList.Add(selectedCurrency);
-                CurrencyDetailWindow currencyDetailWindow = new CurrencyDetailWindow(newList);
+                var newList = new List<CurrencyModel>
+                {
+                    selectedCurrency
+                };
+                currencyDetailWindow = new CurrencyDetailWindow(newList);
                 currencyDetailWindow.Show();
                 this.Hide();
             }
+        }
 
+        private void SearchTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            ViewListOfCurrency.ItemsSource = _viewModel.GetListOfCurrencies();
 
+        }
+
+        private void SearchTextBox_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (VisualTreeHelper.HitTest(SearchTextBox, e.GetPosition(SearchTextBox)) == null )
+            {
+                Keyboard.ClearFocus();
+            }
         }
     }
 }

@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CryptoCurrencies.View"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="800">
-    
+        Title="MainWindow" Height="800" Width="800"
+        >
+
     <Grid>
         
         <Grid.RowDefinitions>
@@ -15,39 +16,64 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="200"/>
         </Grid.ColumnDefinitions>
 
         <Frame Name="MainFrame" Grid.Row="2" Grid.Column="2" Grid.RowSpan="2"/>
         <StackPanel Grid.Row="0" Grid.Column="1" >
             <Button Content="Load More" Click="LoadMoreButton_Click" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,10,0,10"/>
 
-            <TextBox Background="#FFDAD5D5" Name="SearchTextBox" PreviewKeyDown ="SearchTextBox_PreviewKeyDown" Text="Find a coin" GotFocus="SearchTextBox_GotFocus"/>
-            <Label Name="message" Content="some text" HorizontalAlignment="Center"/>
+            <TextBox Background="#FFDAD5D5" Name="SearchTextBox" 
+                     PreviewKeyDown ="SearchTextBox_PreviewKeyDown" Text="Find a coin" 
+                     GotFocus="SearchTextBox_GotFocus" LostFocus="SearchTextBox_LostFocus"
+                     PreviewMouseDown="SearchTextBox_PreviewMouseDown"/>
         </StackPanel>
 
-        <ListView x:Name="ViewListOfCurrency" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="1" ItemsSource="{Binding}"
+        <ListView x:Name="ViewListOfCurrency" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" 
+                  Grid.ColumnSpan="1" ItemsSource="{Binding}"
                   SelectionChanged ="ViewListOfCurrency_SelectionChanged">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Name" Width="100" >
+                    <GridViewColumn Header="Rank" Width="Auto" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Id}" FontFamily="Arial Rounded MT Bold" FontSize="20" />
+                                <TextBlock Text="{Binding rank}" 
+                                           FontFamily="Arial Rounded MT Bold" FontSize="20" 
+                                           IsHitTestVisible="False"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Symbol" Width="100" >
+                    <GridViewColumn Header="Name" Width="Auto" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Id}" 
+                                           FontFamily="Arial Rounded MT Bold" FontSize="20" 
+                                           IsHitTestVisible="False"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Symbol" Width="Auto" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Symbol}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Price" Width="100" >
+                    <GridViewColumn Header="Price" Width="Auto">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding PriceUsd}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Valume(24HR)" Width="Auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Name ="changePercentTextPercent" 
+                                           Text="{Binding changePercent24Hr}"
+                                          Loaded="changePercentTextPercent_Loaded"
+                                           >
+                                </TextBlock>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

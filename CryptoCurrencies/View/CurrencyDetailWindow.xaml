@@ -5,43 +5,80 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CryptoCurrencies.View"
         mc:Ignorable="d"
-        Title="Page" Height="450" Width="800"
+        Title="Page" Height="600" Width="800" Closed="CurrencyDetailWindow_Closed"
+        MinWidth="550" MinHeight="600"
         >
     <Grid>
-        <ListView x:Name="ViewListOfCurrencyItem" ItemsSource="{Binding}">
-            <ListView.View>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ListView x:Name="ViewListOfCurrencyItem" Grid.Row="0" ItemsSource="{Binding}" FontFamily="Arial Black">
+            <ListView.View >
                 <GridView>
-                    <GridViewColumn Header="Id" Width="100" >
+                    <GridViewColumn Header="Id" Width="Auto" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Id}" />
+                                <TextBlock Text="{Binding Id}" TextTrimming="CharacterEllipsis" MaxWidth="100"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Symbol" Width="100" >
+                    <GridViewColumn Header="Symbol" Width="Auto" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Symbol}"/>
+                                <TextBlock Text="{Binding Symbol}" TextTrimming="CharacterEllipsis" MaxWidth="100"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Price" Width="100" >
+                    <GridViewColumn Header="Price" Width="Auto" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding PriceUsd}" />
+                                <TextBlock Text="{Binding PriceUsd}" TextTrimming="CharacterEllipsis" MaxWidth="100"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="rank" Width="100" >
+                    <GridViewColumn Header="rank" Width="Auto" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding rank}" />
+                                <TextBlock Text="{Binding rank}" TextTrimming="CharacterEllipsis" MaxWidth="100"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="supply" Width="Auto" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding supply}" TextTrimming="CharacterEllipsis" MaxWidth="100"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="volumeUsd24Hr" Width="Auto" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding volumeUsd24Hr}" TextTrimming="CharacterEllipsis" MaxWidth="100"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="changePercent24Hr" Width="Auto" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding changePercent24Hr}" TextTrimming="CharacterEllipsis" MaxWidth="100"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="vwap24Hr" Width="Auto" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding vwap24Hr}" TextTrimming="CharacterEllipsis" MaxWidth="100"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
+        <Button Name="ButtonToBackOnMainWindow" Click="ButtonToBackOnMainWindow_Click"
+                Grid.Row="2"
+                Content="Back to Main" Margin="0,400,0,10" Height="55"
+                VerticalAlignment="Bottom"/>
     </Grid>
 
 </Window>

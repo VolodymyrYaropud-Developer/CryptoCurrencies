@@ -1,18 +1,9 @@
 ﻿using CryptoCurrencies.Models;
-using CryptoCurrencies.ViewModel;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+
 
 namespace CryptoCurrencies.View
 {
@@ -21,6 +12,7 @@ namespace CryptoCurrencies.View
     /// </summary>
     public partial class CurrencyDetailWindow : Window
     {
+        MainWindow mainWindow = new MainWindow();
         public CurrencyDetailWindow(List<CurrencyModel> currencyModels)
         {
             InitializeComponent();
@@ -28,5 +20,17 @@ namespace CryptoCurrencies.View
             DataContext = currencyModels; 
             ViewListOfCurrencyItem.ItemsSource = currencyModels;
         }
+
+        private void ButtonToBackOnMainWindow_Click(object sender, RoutedEventArgs e)
+        {
+            mainWindow.Show();
+            Close();
+        }
+        private void CurrencyDetailWindow_Closed(object sender, EventArgs e)
+        {
+            // Show the main window
+            mainWindow.Show();
+        }
+
     }
 }

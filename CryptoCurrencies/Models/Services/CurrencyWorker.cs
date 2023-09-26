@@ -12,9 +12,9 @@ namespace CryptoCurrencies.Models.Services
 {
     internal static class CurrencyWorker
     {
-        private static CurrencyRates _currencyRates = new CurrencyRates();
+        public static CurrencyRates _currencyRates {  get; private set; }
+        
         private static CurrencyToShow viewModel = new CurrencyToShow();
-
         public static async Task<List<CurrencyModel>> FetchCurrenciesAsync()
         {
             using (HttpClient client = new HttpClient())
@@ -26,8 +26,8 @@ namespace CryptoCurrencies.Models.Services
 
                     string responseBody = await response.Content.ReadAsStringAsync();
                     _currencyRates = JsonConvert.DeserializeObject<CurrencyRates>(responseBody);
-
-                    return _currencyRates.Data.Take(10).ToList();
+                    //GetCurrencyByName();
+                    return _currencyRates.Data.Take(viewModel.DisplayCount).ToList();
                 }
                 catch (HttpRequestException ex)
                 {
@@ -38,8 +38,18 @@ namespace CryptoCurrencies.Models.Services
                     throw new Exception("Failed to parse JSON: " + ex.Message, ex);
                 }
             }
-
         }
+        public static async Task<List<CurrencyModel>> GetCurrencyByName(string name)
+        {
+            var client = new HttpClient();
+            var request = new HttpRequestMessage(HttpMethod.Get, $"https://api.coincap.io/v2/assets/{name}");
+            var response = await client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
+            _currencyRates = JsonConvert.DeserializeObject<CurrencyRates>(responseBody);
+            return _currencyRates.Data;
+        }
+
         public static List<CurrencyModel> LoadMoreButtonFunc()
         {
             try
@@ -58,6 +68,5 @@ namespace CryptoCurrencies.Models.Services
         {
             return _currencyRates.Data.FindAll(s=> s.Name.ToLower() == str|| s.Symbol.ToLower()== str);
         }
-
     }
 }
