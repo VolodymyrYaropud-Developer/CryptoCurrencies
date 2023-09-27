@@ -1,10 +1,8 @@
 ﻿using CryptoCurrencies.Models;
 using CryptoCurrencies.ViewModel;
-using CryptoCurrencies.View;
 using System;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Navigation;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Controls;
@@ -44,7 +42,7 @@ namespace CryptoCurrencies.View
                     textBlock.Foreground = Brushes.Green;
                 else
                     textBlock.Foreground = Brushes.Red;
-                textBlock.Text = textBlock.Text.Substring(0, 4);
+                textBlock.Text = textBlock.Text.Substring(0, 4) + " %";
             }
         }
 

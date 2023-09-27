@@ -3,17 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Documents;
+
 
 namespace CryptoCurrencies.Models.Services
 {
     internal static class CurrencyWorker
     {
         public static CurrencyRates _currencyRates {  get; private set; }
-        
+       
+
         private static CurrencyToShow viewModel = new CurrencyToShow();
         public static async Task<List<CurrencyModel>> FetchCurrenciesAsync()
         {
@@ -23,33 +23,21 @@ namespace CryptoCurrencies.Models.Services
                 {
                     HttpResponseMessage response = await client.GetAsync("https://api.coincap.io/v2/assets");
                     response.EnsureSuccessStatusCode();
-
                     string responseBody = await response.Content.ReadAsStringAsync();
                     _currencyRates = JsonConvert.DeserializeObject<CurrencyRates>(responseBody);
-                    //GetCurrencyByName();
                     return _currencyRates.Data.Take(viewModel.DisplayCount).ToList();
                 }
                 catch (HttpRequestException ex)
                 {
-                    throw new Exception("Failed to fetch currencies: " + ex.Message, ex);
+                    throw new Exception("Failed to fetch currencies: " + ex.Message);
                 }
                 catch (JsonException ex)
                 {
-                    throw new Exception("Failed to parse JSON: " + ex.Message, ex);
+                    throw new Exception("Failed to parse JSON: " + ex.Message);
                 }
             }
         }
-        public static async Task<List<CurrencyModel>> GetCurrencyByName(string name)
-        {
-            var client = new HttpClient();
-            var request = new HttpRequestMessage(HttpMethod.Get, $"https://api.coincap.io/v2/assets/{name}");
-            var response = await client.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-            string responseBody = await response.Content.ReadAsStringAsync();
-            _currencyRates = JsonConvert.DeserializeObject<CurrencyRates>(responseBody);
-            return _currencyRates.Data;
-        }
-
+       
         public static List<CurrencyModel> LoadMoreButtonFunc()
         {
             try
@@ -60,7 +48,7 @@ namespace CryptoCurrencies.Models.Services
             catch (Exception ex)
             {
                 MessageBox.Show($"Server error {ex.Message}");
-                return default;
+                return new List<CurrencyModel>();
             }
         }
 

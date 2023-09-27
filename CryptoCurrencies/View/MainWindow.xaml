@@ -34,11 +34,12 @@
                   SelectionChanged ="ViewListOfCurrency_SelectionChanged">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Rank" Width="Auto" >
+                    <GridViewColumn Header="Rank"
+                                    Width="Auto" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding rank}" 
-                                           FontFamily="Arial Rounded MT Bold" FontSize="20" 
+                                            FontFamily="Arial Rounded MT Bold" FontSize="14" 
                                            IsHitTestVisible="False"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -47,7 +48,7 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Id}" 
-                                           FontFamily="Arial Rounded MT Bold" FontSize="20" 
+                                           FontFamily="Arial Rounded MT Bold" FontSize="14" 
                                            IsHitTestVisible="False"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -55,14 +56,16 @@
                     <GridViewColumn Header="Symbol" Width="Auto" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Symbol}"/>
+                                <TextBlock Text="{Binding Symbol}"
+                                           FontFamily="Arial Rounded MT Bold" FontSize="14" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="Price" Width="Auto">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding PriceUsd}" />
+                                <TextBlock Text="{Binding PriceUsd}" 
+                                           FontFamily="Arial Rounded MT Bold" FontSize="14" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -71,8 +74,8 @@
                             <DataTemplate>
                                 <TextBlock Name ="changePercentTextPercent" 
                                            Text="{Binding changePercent24Hr}"
-                                          Loaded="changePercentTextPercent_Loaded"
-                                           >
+                                           Loaded="changePercentTextPercent_Loaded"
+                                           FontFamily="Arial Rounded MT Bold" FontSize="14">
                                 </TextBlock>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
